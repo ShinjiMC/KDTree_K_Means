@@ -35,9 +35,8 @@ int main(int argc, char **argv)
             std::cout << "5. Buscar N puntos vecinos en Fuerza Bruta" << std::endl;
             std::cout << "6. Buscar K-Means en KDTree" << std::endl;
             std::cout << "7. Hacer K-Means en Fuerza Bruta" << std::endl;
-            std::cout << "8. Visualizar K-Means" << std::endl;
-            std::cout << "9. TESTS" << std::endl;
-            std::cout << "10. Salir" << std::endl;
+            std::cout << "8. TESTS" << std::endl;
+            std::cout << "9. Salir" << std::endl;
             std::cin >> choice;
 
             switch (choice)
@@ -126,23 +125,16 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 8:
-                start = std::chrono::high_resolution_clock::now();
-                kdtree.ShowKMeans(18);
-                end = std::chrono::high_resolution_clock::now();
-                elapsed = end - start;
-                std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
-                break;
-            case 9:
                 testing::InitGoogleTest();
                 return RUN_ALL_TESTS();
-            case 10:
+            case 9:
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cout << "Opcion invalida." << std::endl;
                 break;
             }
-        } while (choice != 10);
+        } while (choice != 9);
     }
     return 0;
 }

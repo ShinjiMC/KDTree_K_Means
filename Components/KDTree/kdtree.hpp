@@ -7,7 +7,6 @@
 #include <cmath>
 #include <utility>
 #include "../Vec2D/vec2d.hpp"
-#include "../Vtk_Builder/vtk_builder.hpp"
 
 struct Neighbor
 {
@@ -49,8 +48,6 @@ public:
     std::vector<Vec2D> Centroids(int k, std::vector<Vec2D> all_points);
     std::vector<std::vector<Vec2D>> KMeans(int k);
     std::vector<std::vector<Vec2D>> KMeans(std::vector<Vec2D> centroids, int count, std::vector<Vec2D> all_points);
-    void ShowKMeans(int k);
-    void ShowKMeans(Vtk_Builder &vtk, std::vector<Vec2D> centroids, int count, std::vector<Vec2D> all_points);
 
 private:
     void Insert(Node *&root, Vec2D data, int depth);

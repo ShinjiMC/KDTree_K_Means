@@ -219,36 +219,3 @@ std::vector<std::vector<Vec2D>> KDTree::KMeans(std::vector<Vec2D> centroids, int
         return clusters;
     return KMeans(newCentroids, count + 1, points);
 }
-
-void KDTree::ShowKMeans(int k)
-{
-    std::vector<Vec2D> all_points = GetAllPoints();
-    std::vector<Vec2D> centroids = Centroids(k, all_points);
-    Vtk_Builder vtk;
-    ShowKMeans(vtk, centroids, 0, all_points);
-}
-
-void KDTree::ShowKMeans(Vtk_Builder &vtk, std::vector<Vec2D> centroids, int count, std::vector<Vec2D> points)
-{
-    KDTree centers(2);
-    for (const auto &centroid : centroids)
-        centers.insert(centroid);
-    std::vector<std::vector<Vec2D>> clusters(centroids.size());
-    for (int i = 0; i < points.size(); i++)
-    {
-        std::vector<Vec2D> num = centers.KNN(points[i], 1);
-        for (int j = 0; j < centroids.size(); j++)
-            if (num[0] == centroids[j])
-            {
-                clusters[j].push_back(points[i]);
-                break;
-            }
-    }
-    vtk.clear();
-    vtk.addClusters(clusters);
-    vtk.show();
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    std::vector<Vec2D> newCentroids = ApproximateCentroids(clusters);
-    if (count < 10 && newCentroids != centroids)
-        ShowKMeans(vtk, newCentroids, count + 1, points);
-}
