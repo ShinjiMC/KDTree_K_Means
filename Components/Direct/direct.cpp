@@ -54,7 +54,7 @@ std::vector<Vec2D> Direct::Centroids(int k)
 {
     std::vector<Vec2D> centroids;
     centroids.reserve(k);
-    std::mt19937 gen(static_cast<long unsigned int>(12));
+    std::mt19937 gen(static_cast<long unsigned int>(123));
     std::uniform_int_distribution<int> distribution(0, points.size() - 1);
     for (int i = 0; i < k; i++)
     {

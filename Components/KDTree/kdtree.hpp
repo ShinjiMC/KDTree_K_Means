@@ -32,7 +32,7 @@ class KDTree
 {
 private:
     Node *root;
-    int k, size;
+    int k;
 
 public:
     KDTree() : root(NULL), k(0) {}

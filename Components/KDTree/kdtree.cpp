@@ -1,4 +1,4 @@
-#include "KDTree.hpp"
+#include "kdtree.hpp"
 #include <limits>
 #include <iostream>
 #include <vector>
@@ -12,6 +12,8 @@
 #include <set>
 #include <ctime>
 #include <random>
+#include <thread>
+#include <chrono>
 
 void KDTree::insert(Vec2D data)
 {
@@ -23,7 +25,6 @@ void KDTree::Insert(Node *&root, Vec2D data, int depth)
     if (root == NULL)
     {
         root = new Node(data, depth);
-        size++;
         return;
     }
     int cd = depth % k;
@@ -145,8 +146,7 @@ void KDTree::KNNRecursive(Node *node, Vec2D query, int cantPoints, std::vector<N
 std::vector<Vec2D> KDTree::Centroids(int k, std::vector<Vec2D> points)
 {
     std::vector<Vec2D> centroids;
-    centroids.reserve(k);
-    std::mt19937 gen(static_cast<long unsigned int>(12));
+    std::mt19937 gen(static_cast<long unsigned int>(123));
     std::uniform_int_distribution<int> distribution(0, points.size() - 1);
     for (int i = 0; i < k; i++)
     {
@@ -161,20 +161,14 @@ std::vector<Vec2D> KDTree::Centroids(int k, std::vector<Vec2D> points)
 std::vector<Vec2D> KDTree::GetAllPoints()
 {
     std::vector<Vec2D> allPoints;
-    allPoints.reserve(size); // Reserva espacio para evitar reallocaciones frecuentes
-
     GetAllPointsRecursive(root, allPoints);
-
     return allPoints;
 }
 
 void KDTree::GetAllPointsRecursive(Node *node, std::vector<Vec2D> &allPoints)
 {
     if (node == nullptr)
-    {
         return;
-    }
-
     GetAllPointsRecursive(node->left, allPoints);
     allPoints.push_back(node->data);
     GetAllPointsRecursive(node->right, allPoints);
@@ -183,22 +177,14 @@ void KDTree::GetAllPointsRecursive(Node *node, std::vector<Vec2D> &allPoints)
 std::vector<Vec2D> KDTree::ApproximateCentroids(std::vector<std::vector<Vec2D>> clusters)
 {
     std::vector<Vec2D> newCentroids;
-    newCentroids.reserve(clusters.size());
-
     for (int i = 0; i < clusters.size(); i++)
     {
         Vec2D centroid = Vec2D();
         for (const auto &point : clusters[i])
-        {
             centroid = centroid + point;
-            // std::cout << "el point" << point.getX() << "," << point.getY() << std::endl;
-        }
         double size = clusters[i].size();
-        // std::cout << "el centroid 1" << centroid.getX() << "," << centroid.getY() << std::endl;
-
         if (size != 0)
             centroid = centroid / size;
-        // std::cout << "el centroid" << centroid.getX() << "," << centroid.getY() << std::endl;
         newCentroids.push_back(centroid);
     }
     return newCentroids;
@@ -208,8 +194,6 @@ std::vector<std::vector<Vec2D>> KDTree::KMeans(int k)
 {
     std::vector<Vec2D> all_points = GetAllPoints();
     std::vector<Vec2D> centroids = Centroids(k, all_points);
-    // for (int i = 0; i < all_points.size(); i++)
-    //     std::cout << "Cluster " << i << ":" << all_points[i].getX() << "" << all_points[i].getY() << std::endl;
     return KMeans(centroids, 0, all_points);
 }
 
@@ -217,32 +201,20 @@ std::vector<std::vector<Vec2D>> KDTree::KMeans(std::vector<Vec2D> centroids, int
 {
 
     KDTree centers(2);
-    // std::cout << "Cluster " << std::endl;
     for (const auto &centroid : centroids)
-    {
         centers.insert(centroid);
-    }
-    // std::cout << "Cluster 2" << std::endl;
     std::vector<std::vector<Vec2D>> clusters(centroids.size());
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < points.size(); i++)
     {
-        // std::cout << "Cluster 3" << std::endl;
-
         std::vector<Vec2D> num = centers.KNN(points[i], 1);
         for (int j = 0; j < centroids.size(); j++)
-        {
             if (num[0] == centroids[j])
             {
                 clusters[j].push_back(points[i]);
                 break;
             }
-        }
     }
-    // for (int i = 0; i < clusters.size(); i++)
-    // std::cout << "Cluster " << i << ":" << clusters[i].size() << std::endl;
     std::vector<Vec2D> newCentroids = ApproximateCentroids(clusters);
-    // for (int i = 0; i < newCentroids.size(); i++)
-    //     std::cout << "nuevo centro " << i << ":" << newCentroids[i].getX() << "" << newCentroids[i].getY() << std::endl;
     if (count == 10 || newCentroids == centroids)
         return clusters;
     return KMeans(newCentroids, count + 1, points);

@@ -1,4 +1,4 @@
-#include "Components/Reader/Reader.hpp"
+#include "Components/Reader/reader.hpp"
 #include "Components/Tester/tester.cpp"
 #include <iostream>
 #include <chrono>
@@ -83,7 +83,6 @@ int main(int argc, char **argv)
                     std::cout << "(" << c.getX() << ", " << c.getY() << ")"
                               << " Distance: " << c.distance(Vec2D(x2, y2)) << std::endl;
                 }
-
                 elapsed = end - start;
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
@@ -106,9 +105,8 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 6:
-                kdtree = csv.readAndConvert("data2k.csv", 1000);
                 start = std::chrono::high_resolution_clock::now();
-                clusters = kdtree.KMeans(5);
+                clusters = kdtree.KMeans(18);
                 end = std::chrono::high_resolution_clock::now();
                 std::cout << "Los clusters son:" << std::endl;
                 for (int i = 0; i < clusters.size(); i++)
