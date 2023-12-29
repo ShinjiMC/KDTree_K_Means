@@ -142,44 +142,20 @@ void KDTree::KNNRecursive(Node *node, Vec2D query, int cantPoints, std::vector<N
     }
 }
 
-std::vector<Vec2D> KDTree::Centroids(int k)
+std::vector<Vec2D> KDTree::Centroids(int k, std::vector<Vec2D> points)
 {
-    if (!root || k > size)
-    {
-        std::cerr << "Error: El árbol KD no tiene suficientes puntos.\n";
-        // Puedes manejar el error de otra manera según tus necesidades
-        return std::vector<Vec2D>();
-    }
-
+    std::vector<Vec2D> centroids;
+    centroids.reserve(k);
     std::mt19937 gen(static_cast<long unsigned int>(12));
-    std::uniform_int_distribution<int> distribution(0, size - 1);
-
-    std::set<Vec2D> selectedPoints;
-
-    while (selectedPoints.size() < k)
+    std::uniform_int_distribution<int> distribution(0, points.size() - 1);
+    for (int i = 0; i < k; i++)
     {
-        Node *currentNode = root;
-
-        // Escoge aleatoriamente un punto dentro del árbol
-        while (currentNode->left || currentNode->right)
-        {
-            int direction = distribution(gen) % 2; // Alterna entre dimensiones X e Y
-
-            if (currentNode->left && (!currentNode->right || direction == 0))
-            {
-                currentNode = currentNode->left;
-            }
-            else
-            {
-                currentNode = currentNode->right;
-            }
-        }
-
-        selectedPoints.insert(currentNode->data);
+        int ind = distribution(gen);
+        while (std::find(centroids.begin(), centroids.end(), points[ind]) != centroids.end())
+            ind = distribution(gen);
+        centroids.push_back(points[ind]);
     }
-
-    // Convierte el conjunto a un vector y devuélvelo
-    return std::vector<Vec2D>(selectedPoints.begin(), selectedPoints.end());
+    return centroids;
 }
 
 std::vector<Vec2D> KDTree::GetAllPoints()
@@ -208,14 +184,21 @@ std::vector<Vec2D> KDTree::ApproximateCentroids(std::vector<std::vector<Vec2D>> 
 {
     std::vector<Vec2D> newCentroids;
     newCentroids.reserve(clusters.size());
+
     for (int i = 0; i < clusters.size(); i++)
     {
         Vec2D centroid = Vec2D();
         for (const auto &point : clusters[i])
+        {
             centroid = centroid + point;
+            // std::cout << "el point" << point.getX() << "," << point.getY() << std::endl;
+        }
         double size = clusters[i].size();
+        // std::cout << "el centroid 1" << centroid.getX() << "," << centroid.getY() << std::endl;
+
         if (size != 0)
             centroid = centroid / size;
+        // std::cout << "el centroid" << centroid.getX() << "," << centroid.getY() << std::endl;
         newCentroids.push_back(centroid);
     }
     return newCentroids;
@@ -223,8 +206,10 @@ std::vector<Vec2D> KDTree::ApproximateCentroids(std::vector<std::vector<Vec2D>> 
 
 std::vector<std::vector<Vec2D>> KDTree::KMeans(int k)
 {
-    std::vector<Vec2D> centroids = Centroids(k);
     std::vector<Vec2D> all_points = GetAllPoints();
+    std::vector<Vec2D> centroids = Centroids(k, all_points);
+    // for (int i = 0; i < all_points.size(); i++)
+    //     std::cout << "Cluster " << i << ":" << all_points[i].getX() << "" << all_points[i].getY() << std::endl;
     return KMeans(centroids, 0, all_points);
 }
 
@@ -232,14 +217,17 @@ std::vector<std::vector<Vec2D>> KDTree::KMeans(std::vector<Vec2D> centroids, int
 {
 
     KDTree centers(2);
+    // std::cout << "Cluster " << std::endl;
     for (const auto &centroid : centroids)
     {
         centers.insert(centroid);
     }
-
+    // std::cout << "Cluster 2" << std::endl;
     std::vector<std::vector<Vec2D>> clusters(centroids.size());
     for (int i = 0; i < size; i++)
     {
+        // std::cout << "Cluster 3" << std::endl;
+
         std::vector<Vec2D> num = centers.KNN(points[i], 1);
         for (int j = 0; j < centroids.size(); j++)
         {
@@ -250,8 +238,11 @@ std::vector<std::vector<Vec2D>> KDTree::KMeans(std::vector<Vec2D> centroids, int
             }
         }
     }
-
+    // for (int i = 0; i < clusters.size(); i++)
+    // std::cout << "Cluster " << i << ":" << clusters[i].size() << std::endl;
     std::vector<Vec2D> newCentroids = ApproximateCentroids(clusters);
+    // for (int i = 0; i < newCentroids.size(); i++)
+    //     std::cout << "nuevo centro " << i << ":" << newCentroids[i].getX() << "" << newCentroids[i].getY() << std::endl;
     if (count == 10 || newCentroids == centroids)
         return clusters;
     return KMeans(newCentroids, count + 1, points);

@@ -45,7 +45,7 @@ public:
     std::vector<Vec2D> GetAllPoints();
     std::vector<Vec2D> KNN(Vec2D data, int cantPoints);
     std::vector<Vec2D> ApproximateCentroids(std::vector<std::vector<Vec2D>> data);
-    std::vector<Vec2D> Centroids(int k);
+    std::vector<Vec2D> Centroids(int k, std::vector<Vec2D> all_points);
     std::vector<std::vector<Vec2D>> KMeans(int k);
     std::vector<std::vector<Vec2D>> KMeans(std::vector<Vec2D> centroids, int count, std::vector<Vec2D> all_points);
 
