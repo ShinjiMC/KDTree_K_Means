@@ -35,8 +35,9 @@ int main(int argc, char **argv)
             std::cout << "5. Buscar N puntos vecinos en Fuerza Bruta" << std::endl;
             std::cout << "6. Buscar K-Means en KDTree" << std::endl;
             std::cout << "7. Hacer K-Means en Fuerza Bruta" << std::endl;
-            std::cout << "8. TESTS" << std::endl;
-            std::cout << "9. Salir" << std::endl;
+            std::cout << "8. Visualizar K-Means" << std::endl;
+            std::cout << "9. TESTS" << std::endl;
+            std::cout << "10. Salir" << std::endl;
             std::cin >> choice;
 
             switch (choice)
@@ -83,7 +84,6 @@ int main(int argc, char **argv)
                     std::cout << "(" << c.getX() << ", " << c.getY() << ")"
                               << " Distance: " << c.distance(Vec2D(x2, y2)) << std::endl;
                 }
-
                 elapsed = end - start;
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
@@ -106,6 +106,14 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 6:
+                start = std::chrono::high_resolution_clock::now();
+                clusters = kdtree.KMeans(18);
+                end = std::chrono::high_resolution_clock::now();
+                std::cout << "Los clusters son:" << std::endl;
+                for (int i = 0; i < clusters.size(); i++)
+                    std::cout << "Cluster " << i << ":" << clusters[i].size() << std::endl;
+                elapsed = end - start;
+                std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 7:
                 start = std::chrono::high_resolution_clock::now();
@@ -118,16 +126,23 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 8:
+                start = std::chrono::high_resolution_clock::now();
+                kdtree.ShowKMeans(18);
+                end = std::chrono::high_resolution_clock::now();
+                elapsed = end - start;
+                std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
+                break;
+            case 9:
                 testing::InitGoogleTest();
                 return RUN_ALL_TESTS();
-            case 9:
+            case 10:
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cout << "Opcion invalida." << std::endl;
                 break;
             }
-        } while (choice != 9);
+        } while (choice != 10);
     }
     return 0;
 }

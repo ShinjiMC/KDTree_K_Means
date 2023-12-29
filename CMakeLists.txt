@@ -6,12 +6,15 @@ enable_testing()
 option(BUILD_EXAMPLE "Builds the example" OFF)
 option(SILENCE_DEBUG_OUTPUT "Silence debugs" OFF)
 # Include directories for header files
+
+include_directories("/opt/vtk/9.3.0/include/vtk-9.3/")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/Components/KDTree")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/Components/Reader")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/Components/Vec2D")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/Components/Tester")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/Components/googleTest/include")
-
+find_package(VTK REQUIRED)
+include_directories(${VTK_INCLUDE_DIRS})
 # List source files for KDTree
 file(GLOB_RECURSE KDTREE_SRC CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Components/KDTree/*.cpp")
 file(GLOB_RECURSE KDTREE_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Components/KDTree/*.hpp")
@@ -31,6 +34,10 @@ file(GLOB_RECURSE VEC2D_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Com
 # List source files for Tester
 file(GLOB_RECURSE TESTER_SRC CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Components/Tester/*.cpp")
 
+# List source files for Vtk_Builder
+file(GLOB_RECURSE VTK_BUILDER_SRC CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Components/Vtk_Builder/*.cpp")
+file(GLOB_RECURSE VTK_BUILDER_HEADERS CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/Components/Vtk_Builder/*.hpp")
+
 # Add Google Test libraries
 add_library(gtest STATIC IMPORTED)
 set_target_properties(gtest PROPERTIES
@@ -47,6 +54,7 @@ add_library(KDTree ${KDTREE_SRC} ${KDTREE_HEADERS})
 add_library(Direct ${DIRECT_SRC} ${DIRECT_HEADERS})
 add_library(Reader ${READER_SRC} ${READER_HEADERS})
 add_library(Vec2D ${VEC2D_SRC} ${VEC2D_HEADERS})
+add_library(Vtk_Builder ${VTK_BUILDER_SRC} ${VTK_BUILDER_HEADERS})
 add_library(Tester ${TESTER_SRC})
 
 # Set compile definitions
@@ -55,12 +63,13 @@ if(SILENCE_DEBUG_OUTPUT)
     target_compile_definitions(Direct PRIVATE "SILENCE_DEBUG")
     target_compile_definitions(Reader PRIVATE "SILENCE_DEBUG")
     target_compile_definitions(Vec2D PRIVATE "SILENCE_DEBUG")
+    target_compile_definitions(Vtk_Builder PRIVATE "SILENCE_DEBUG")
     target_compile_definitions(Tester PRIVATE "SILENCE_DEBUG")
 endif()
 
 # Link libraries as needed
 if(BUILD_EXAMPLE)
     add_executable(example "${CMAKE_CURRENT_LIST_DIR}/main.cpp")
-    target_link_libraries(example PRIVATE KDTree Direct Reader Vec2D Tester gtest gmock )
+    target_link_libraries(example PRIVATE ${VTK_LIBRARIES} PRIVATE KDTree Direct Reader Vec2D Tester Vtk_Builder gtest gmock )
     set_target_properties(example PROPERTIES OUTPUT_NAME "program")
 endif()

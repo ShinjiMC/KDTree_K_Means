@@ -1,6 +1,6 @@
 #ifndef VEC2D_HPP
 #define VEC2D_HPP
-
+#include <iostream>
 class Vec2D
 {
 public:
@@ -19,8 +19,10 @@ public:
     bool operator==(const Vec2D &other) const;
     bool operator!=(const Vec2D &other) const;
     bool operator<(const Vec2D &other) const;
+    friend std::ostream &operator<<(std::ostream &os, const Vec2D &vec);
 
 private:
     long double x, y;
 };
+
 #endif // VEC2D_HPP

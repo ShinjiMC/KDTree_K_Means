@@ -61,3 +61,9 @@ bool Vec2D::operator<(const Vec2D &other) const
         return x < other.x;
     return y < other.y;
 }
+
+std::ostream &operator<<(std::ostream &os, const Vec2D &vec)
+{
+    os << "(" << vec.getX() << ", " << vec.getY() << ")";
+    return os;
+}

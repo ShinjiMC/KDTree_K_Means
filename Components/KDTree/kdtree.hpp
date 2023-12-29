@@ -7,6 +7,7 @@
 #include <cmath>
 #include <utility>
 #include "../Vec2D/vec2d.hpp"
+#include "../Vtk_Builder/vtk_builder.hpp"
 
 struct Neighbor
 {
@@ -42,10 +43,18 @@ public:
     void print();
     bool search(Vec2D data);
     void clear();
+    std::vector<Vec2D> GetAllPoints();
     std::vector<Vec2D> KNN(Vec2D data, int cantPoints);
+    std::vector<Vec2D> ApproximateCentroids(std::vector<std::vector<Vec2D>> data);
+    std::vector<Vec2D> Centroids(int k, std::vector<Vec2D> all_points);
+    std::vector<std::vector<Vec2D>> KMeans(int k);
+    std::vector<std::vector<Vec2D>> KMeans(std::vector<Vec2D> centroids, int count, std::vector<Vec2D> all_points);
+    void ShowKMeans(int k);
+    void ShowKMeans(Vtk_Builder &vtk, std::vector<Vec2D> centroids, int count, std::vector<Vec2D> all_points);
 
 private:
     void Insert(Node *&root, Vec2D data, int depth);
+    void GetAllPointsRecursive(Node *node, std::vector<Vec2D> &allPoints);
     void Print(Node *root);
     bool Search(Node *root, Vec2D data, int depth);
     void KNNRecursive(Node *node, Vec2D query, int cantPoints, std::vector<Neighbor> &neighbors);
