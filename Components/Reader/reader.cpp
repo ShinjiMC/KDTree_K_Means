@@ -13,6 +13,8 @@ KDTree Reader::readAndConvert(std::string fileN)
         std::cerr << "Unable to open file " << filename << std::endl;
         throw std::runtime_error("Unable to open file " + filename);
     }
+    std::string firstLine;
+    std::getline(file, firstLine);
     KDTree kdtree(2);
     std::string line;
     while (std::getline(file, line))
@@ -40,13 +42,15 @@ Direct Reader::readAndConvertDirect(std::string fileN)
         std::cerr << "Unable to open file " << filename << std::endl;
         throw std::runtime_error("Unable to open file " + filename);
     }
+    std::string firstLine;
+    std::getline(file, firstLine);
     Direct direct;
     std::string line;
     while (std::getline(file, line))
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y, z;
+        double x, y;
         if (std::getline(ss, token, ','))
             x = std::stoi(token);
         if (std::getline(ss, token, '\n'))

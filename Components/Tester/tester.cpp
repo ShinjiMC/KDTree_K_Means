@@ -48,7 +48,8 @@ void testPointsKDTree(const std::string &filename, KDTree &kdtree)
         std::cerr << "Unable to open file " << filename << std::endl;
         return;
     }
-
+    std::string firstLine;
+    std::getline(file, firstLine);
     std::string line;
     while (std::getline(file, line))
     {
@@ -74,7 +75,8 @@ void testPointsKNN_KDTREE(const std::string &filename, KDTree &kdtree, int cantP
         std::cerr << "Unable to open file " << filename << std::endl;
         return;
     }
-
+    std::string firstLine;
+    std::getline(file, firstLine);
     std::string line;
     while (std::getline(file, line))
     {
@@ -99,7 +101,8 @@ void testPointsDirect(const std::string &filename, Direct &direct)
         std::cerr << "Unable to open file " << filename << std::endl;
         return;
     }
-
+    std::string firstLine;
+    std::getline(file, firstLine);
     std::string line;
     while (std::getline(file, line))
     {
@@ -125,7 +128,8 @@ void testPointsKNN_Direct(const std::string &filename, Direct &direct, int cantP
         std::cerr << "Unable to open file " << filename << std::endl;
         return;
     }
-
+    std::string firstLine;
+    std::getline(file, firstLine);
     std::string line;
     while (std::getline(file, line))
     {
