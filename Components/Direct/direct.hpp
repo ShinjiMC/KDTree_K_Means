@@ -20,5 +20,9 @@ public:
     bool search(Vec2D data);
     void clear() { points.clear(); }
     std::vector<Vec2D> KNN(Vec2D data, int cantPoints);
+    std::vector<Vec2D> Centroids(int k);
+    std::vector<Vec2D> ApproximateCentroids(std::vector<std::vector<Vec2D>> clusters);
+    std::vector<std::vector<Vec2D>> KMeans(int k);
+    std::vector<std::vector<Vec2D>> KMeans(std::vector<Vec2D> centroids, int count);
 };
 #endif // DIRECT_HPP

@@ -23,6 +23,7 @@ int main(int argc, char **argv)
         int choice;
         auto start = std::chrono::high_resolution_clock::now();
         auto end = std::chrono::high_resolution_clock::now();
+        std::vector<std::vector<Vec2D>> clusters;
         std::chrono::duration<double, std::milli> elapsed;
         do
         {
@@ -32,8 +33,10 @@ int main(int argc, char **argv)
             std::cout << "3. Buscar punto en Fuerza Bruta" << std::endl;
             std::cout << "4. Buscar N puntos vecinos en KDTree" << std::endl;
             std::cout << "5. Buscar N puntos vecinos en Fuerza Bruta" << std::endl;
-            std::cout << "6. TESTS" << std::endl;
-            std::cout << "7. Salir" << std::endl;
+            std::cout << "6. Buscar K-Means en KDTree" << std::endl;
+            std::cout << "7. Hacer K-Means en Fuerza Bruta" << std::endl;
+            std::cout << "8. TESTS" << std::endl;
+            std::cout << "9. Salir" << std::endl;
             std::cin >> choice;
 
             switch (choice)
@@ -103,16 +106,28 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 6:
+                break;
+            case 7:
+                clusters = direct.KMeans(18);
+                std::cout << "Los clusters son:" << std::endl;
+                for (int i = 0; i < clusters.size(); i++)
+                {
+                    std::cout << "Cluster " << i << ":" << clusters[i].size() << std::endl;
+                    // for (int j=0; j<clusters[i].size(); j++)
+                    //     std::cout << "(" << clusters[i][j].getX() << ", " << clusters[i][j].getY() << ")" << std::endl;
+                }
+                break;
+            case 8:
                 testing::InitGoogleTest();
                 return RUN_ALL_TESTS();
-            case 7:
+            case 9:
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cout << "Opcion invalida." << std::endl;
                 break;
             }
-        } while (choice != 7);
+        } while (choice != 9);
     }
     return 0;
 }
