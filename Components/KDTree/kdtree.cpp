@@ -1,4 +1,4 @@
-#include "KDTree.hpp"
+#include "kdtree.hpp"
 #include <limits>
 
 void KDTree::insert(Vec2D data)
