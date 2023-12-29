@@ -46,7 +46,7 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 2:
-                double x, y;
+                long double x, y;
                 std::cout << "Ingrese las coordenadas (x, y) del punto a buscar: ";
                 std::cin >> x >> y;
                 start = std::chrono::high_resolution_clock::now();
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 3:
-                double x1, y1;
+                long double x1, y1;
                 std::cout << "Ingrese las coordenadas (x, y) del punto a buscar: ";
                 std::cin >> x1 >> y1;
                 start = std::chrono::high_resolution_clock::now();
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
             case 4:
                 std::cout << "Ingrese el numero de puntos a buscar: ";
                 std::cin >> n;
-                double x2, y2;
+                long double x2, y2;
                 std::cout << "Ingrese las coordenadas (x, y) del punto a buscar: ";
                 std::cin >> x2 >> y2;
                 start = std::chrono::high_resolution_clock::now();
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
             case 5:
                 std::cout << "Ingrese el numero de puntos a buscar: ";
                 std::cin >> n;
-                double x3, y3;
+                long double x3, y3;
                 std::cout << "Ingrese las coordenadas (x, y) del punto a buscar: ";
                 std::cin >> x3 >> y3;
                 start = std::chrono::high_resolution_clock::now();

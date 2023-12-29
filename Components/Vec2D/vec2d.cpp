@@ -1,7 +1,7 @@
 #include <cmath>
 #include "vec2d.hpp"
 
-Vec2D::Vec2D(double xVal, double yVal) : x(xVal), y(yVal) {}
+Vec2D::Vec2D(long double xVal, long double yVal) : x(xVal), y(yVal) {}
 
 Vec2D::Vec2D() : x(0.0), y(0.0) {}
 

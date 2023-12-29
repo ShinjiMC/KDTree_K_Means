@@ -3,7 +3,7 @@
 
 struct ComparePairs
 {
-    bool operator()(const std::pair<double, Vec2D> &a, const std::pair<double, Vec2D> &b) const
+    bool operator()(const std::pair<long double, Vec2D> &a, const std::pair<long double, Vec2D> &b) const
     {
         return a.first < b.first;
     }

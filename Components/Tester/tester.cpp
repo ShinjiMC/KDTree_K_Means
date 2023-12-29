@@ -55,12 +55,12 @@ void testPointsKDTree(const std::string &filename, KDTree &kdtree)
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y;
+        long double x, y;
 
         if (std::getline(ss, token, ','))
-            x = std::stod(token);
+            x = std::stold(token);
         if (std::getline(ss, token, '\n'))
-            y = std::stod(token);
+            y = std::stold(token);
 
         EXPECT_TRUE(kdtree.search(Vec2D(x, y))) << "Point (" << x << ", " << y << ") not found in the KDTree.";
     }
@@ -82,12 +82,12 @@ void testPointsKNN_KDTREE(const std::string &filename, KDTree &kdtree, int cantP
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y;
+        long double x, y;
 
         if (std::getline(ss, token, ','))
-            x = std::stod(token);
+            x = std::stold(token);
         if (std::getline(ss, token, '\n'))
-            y = std::stod(token);
+            y = std::stold(token);
         EXPECT_NO_THROW({ kdtree.KNN(Vec2D(x, y), cantPoints); }) << "Error occurred while executing KNN for point (" << x << ", " << y << ").";
     }
     file.close();
@@ -108,12 +108,12 @@ void testPointsDirect(const std::string &filename, Direct &direct)
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y;
+        long double x, y;
 
         if (std::getline(ss, token, ','))
-            x = std::stod(token);
+            x = std::stold(token);
         if (std::getline(ss, token, '\n'))
-            y = std::stod(token);
+            y = std::stold(token);
 
         EXPECT_TRUE(direct.search(Vec2D(x, y))) << "Point (" << x << ", " << y << ") not found in the KDTree.";
     }
@@ -135,12 +135,12 @@ void testPointsKNN_Direct(const std::string &filename, Direct &direct, int cantP
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y;
+        long double x, y;
 
         if (std::getline(ss, token, ','))
-            x = std::stod(token);
+            x = std::stold(token);
         if (std::getline(ss, token, '\n'))
-            y = std::stod(token);
+            y = std::stold(token);
         EXPECT_NO_THROW({ direct.KNN(Vec2D(x, y), cantPoints); }) << "Error occurred while executing KNN for point (" << x << ", " << y << ").";
     }
     file.close();

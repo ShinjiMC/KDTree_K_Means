@@ -21,11 +21,11 @@ KDTree Reader::readAndConvert(std::string fileN)
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y;
+        long double x, y;
         if (std::getline(ss, token, ','))
-            x = std::stoi(token);
+            x = std::stold(token);
         if (std::getline(ss, token, '\n'))
-            y = std::stoi(token);
+            y = std::stold(token);
         kdtree.insert(Vec2D(x, y));
     }
     file.close();
@@ -50,11 +50,11 @@ Direct Reader::readAndConvertDirect(std::string fileN)
     {
         std::istringstream ss(line);
         std::string token;
-        double x, y;
+        long double x, y;
         if (std::getline(ss, token, ','))
-            x = std::stoi(token);
+            x = std::stold(token);
         if (std::getline(ss, token, '\n'))
-            y = std::stoi(token);
+            y = std::stold(token);
         direct.insert(Vec2D(x, y));
     }
     file.close();

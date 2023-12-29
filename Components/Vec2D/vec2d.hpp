@@ -4,7 +4,7 @@
 class Vec2D
 {
 public:
-    Vec2D(double xVal, double yVal);
+    Vec2D(long double xVal, long double yVal);
     Vec2D();
     ~Vec2D() = default;
 
@@ -21,6 +21,6 @@ public:
     bool operator<(const Vec2D &other) const;
 
 private:
-    double x, y;
+    long double x, y;
 };
 #endif // VEC2D_HPP
