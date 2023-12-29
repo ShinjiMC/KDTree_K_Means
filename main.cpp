@@ -108,14 +108,14 @@ int main(int argc, char **argv)
             case 6:
                 break;
             case 7:
+                start = std::chrono::high_resolution_clock::now();
                 clusters = direct.KMeans(18);
+                end = std::chrono::high_resolution_clock::now();
                 std::cout << "Los clusters son:" << std::endl;
                 for (int i = 0; i < clusters.size(); i++)
-                {
                     std::cout << "Cluster " << i << ":" << clusters[i].size() << std::endl;
-                    // for (int j=0; j<clusters[i].size(); j++)
-                    //     std::cout << "(" << clusters[i][j].getX() << ", " << clusters[i][j].getY() << ")" << std::endl;
-                }
+                elapsed = end - start;
+                std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 8:
                 testing::InitGoogleTest();

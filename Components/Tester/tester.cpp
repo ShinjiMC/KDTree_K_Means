@@ -159,6 +159,13 @@ TEST_F(KDTreeTest, InsertionPointsFromCSVTest_1)
     }
 }
 
+TEST_F(KDTreeTest, Insertion_Search_PointsFromCSVTest_1)
+{
+    kdtree = csv.readAndConvert("data2k.csv");
+    std::string filename = "../Resources/data2k.csv";
+    testPointsKDTree(filename, kdtree);
+}
+
 // Direct Test
 TEST_F(DirectTest, InsertionPointsFromCSVTest_1)
 {
@@ -172,15 +179,6 @@ TEST_F(DirectTest, InsertionPointsFromCSVTest_1)
     }
 }
 
-// KDTree Test
-TEST_F(KDTreeTest, Insertion_Search_PointsFromCSVTest_1)
-{
-    kdtree = csv.readAndConvert("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKDTree(filename, kdtree);
-}
-
-// Direct Test
 TEST_F(DirectTest, Insertion_Search_PointsFromCSVTest_1)
 {
     direct = csv.readAndConvertDirect("data2k.csv");
@@ -188,46 +186,452 @@ TEST_F(DirectTest, Insertion_Search_PointsFromCSVTest_1)
     testPointsDirect(filename, direct);
 }
 
-// KDTree Test
-TEST_F(KDTreeTest, Insertion_KNN_1_PointsFromCSVTest_1)
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1000)
 {
-    kdtree = csv.readAndConvert("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKNN_KDTREE(filename, kdtree, 1);
+    direct = csv.readAndConvertDirect("data2k.csv", 1000);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
 }
 
-TEST_F(KDTreeTest, Insertion_KNN_MID_PointsFromCSVTest_1)
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1000)
 {
-    kdtree = csv.readAndConvert("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKNN_KDTREE(filename, kdtree, 1200);
+    direct = csv.readAndConvertDirect("data2k.csv", 1000);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
 }
 
-TEST_F(KDTreeTest, Insertion_KNN_MAX_PointsFromCSVTest_1)
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1000)
 {
-    kdtree = csv.readAndConvert("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKNN_KDTREE(filename, kdtree, 2400);
+    direct = csv.readAndConvertDirect("data2k.csv", 1000);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
 }
 
-// Direct Test
-TEST_F(DirectTest, Insertion_KNN_1_PointsFromCSVTest_1)
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1000)
 {
-    direct = csv.readAndConvertDirect("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKNN_Direct(filename, direct, 1);
+    direct = csv.readAndConvertDirect("data2k.csv", 1000);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
 }
 
-TEST_F(DirectTest, Insertion_KNN_MID_PointsFromCSVTest_1)
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1000)
 {
-    direct = csv.readAndConvertDirect("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKNN_Direct(filename, direct, 1200);
+    direct = csv.readAndConvertDirect("data2k.csv", 1000);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
 }
 
-TEST_F(DirectTest, Insertion_KNN_MAX_PointsFromCSVTest_1)
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1150)
 {
-    direct = csv.readAndConvertDirect("data2k.csv");
-    std::string filename = "../Resources/data2k.csv";
-    testPointsKNN_Direct(filename, direct, 2400);
+    direct = csv.readAndConvertDirect("data2k.csv", 1150);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1150)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1150);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1150)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1150);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1150)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1150);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1150)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1150);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1300)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1300);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1300)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1300);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1300)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1300);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1300)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1300);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1300)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1300);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1450)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1450);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1450)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1450);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1450)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1450);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1450)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1450);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1450)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1450);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1600)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1600);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1600)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1600);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1600)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1600);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1600)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1600);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1600)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1600);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1750)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1750);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1750)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1750);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1750)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1750);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1750)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1750);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1750)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1750);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_1900)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1900);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_1900)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1900);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_1900)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1900);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_1900)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1900);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_1900)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 1900);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_2050)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2050);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_2050)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2050);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_2050)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2050);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_2050)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2050);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_2050)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2050);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_2200)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2200);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_2200)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2200);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_2200)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2200);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_2200)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2200);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_2200)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2200);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_5_FromCSVTest_2400)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2400);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(5);
+    EXPECT_EQ(clusters.size(), 5) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_15_FromCSVTest_2400)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2400);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(15);
+    EXPECT_EQ(clusters.size(), 15) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_25_FromCSVTest_2400)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2400);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(25);
+    EXPECT_EQ(clusters.size(), 25) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_50_FromCSVTest_2400)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2400);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(50);
+    EXPECT_EQ(clusters.size(), 50) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
+}
+
+TEST_F(DirectTest, KMEANS_75_FromCSVTest_2400)
+{
+    direct = csv.readAndConvertDirect("data2k.csv", 2400);
+    std::vector<std::vector<Vec2D>> clusters = direct.KMeans(75);
+    EXPECT_EQ(clusters.size(), 75) << "The number of clusters is not the expected.";
+    for (const auto &cluster : clusters)
+        EXPECT_NE(cluster.size(), 0) << "The size of a cluster is 0.";
 }
