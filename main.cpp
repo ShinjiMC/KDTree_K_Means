@@ -106,6 +106,14 @@ int main(int argc, char **argv)
                 std::cout << "Tiempo transcurrido: " << elapsed.count() << " ms" << std::endl;
                 break;
             case 6:
+                clusters = kdtree.KMeans(18);
+                std::cout << "Los clusters son:" << std::endl;
+                for (int i = 0; i < clusters.size(); i++)
+                {
+                    std::cout << "Cluster " << i << ":" << clusters[i].size() << std::endl;
+                    // for (int j=0; j<clusters[i].size(); j++)
+                    //     std::cout << "(" << clusters[i][j].getX() << ", " << clusters[i][j].getY() << ")" << std::endl;
+                }
                 break;
             case 7:
                 clusters = direct.KMeans(18);

@@ -91,6 +91,7 @@ std::vector<std::vector<Vec2D>> Direct::KMeans(int k)
 
 std::vector<std::vector<Vec2D>> Direct::KMeans(std::vector<Vec2D> centroids, int count)
 {
+
     Direct centers = Direct(centroids);
     std::vector<std::vector<Vec2D>> clusters(centroids.size());
     for (int i = 0; i < points.size(); i++)

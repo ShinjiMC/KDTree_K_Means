@@ -1,5 +1,17 @@
 #include "KDTree.hpp"
 #include <limits>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <queue>
+#include <ctime>
+#include <iomanip>
+#include <random>
+#include <algorithm>
+#include <stdexcept>
+#include <set>
+#include <ctime>
+#include <random>
 
 void KDTree::insert(Vec2D data)
 {
@@ -11,6 +23,7 @@ void KDTree::Insert(Node *&root, Vec2D data, int depth)
     if (root == NULL)
     {
         root = new Node(data, depth);
+        size++;
         return;
     }
     int cd = depth % k;
@@ -127,4 +140,119 @@ void KDTree::KNNRecursive(Node *node, Vec2D query, int cantPoints, std::vector<N
     {
         KNNRecursive(secondNode, query, cantPoints, neighbors);
     }
+}
+
+std::vector<Vec2D> KDTree::Centroids(int k)
+{
+    if (!root || k > size)
+    {
+        std::cerr << "Error: El árbol KD no tiene suficientes puntos.\n";
+        // Puedes manejar el error de otra manera según tus necesidades
+        return std::vector<Vec2D>();
+    }
+
+    std::mt19937 gen(static_cast<long unsigned int>(12));
+    std::uniform_int_distribution<int> distribution(0, size - 1);
+
+    std::set<Vec2D> selectedPoints;
+
+    while (selectedPoints.size() < k)
+    {
+        Node *currentNode = root;
+
+        // Escoge aleatoriamente un punto dentro del árbol
+        while (currentNode->left || currentNode->right)
+        {
+            int direction = distribution(gen) % 2; // Alterna entre dimensiones X e Y
+
+            if (currentNode->left && (!currentNode->right || direction == 0))
+            {
+                currentNode = currentNode->left;
+            }
+            else
+            {
+                currentNode = currentNode->right;
+            }
+        }
+
+        selectedPoints.insert(currentNode->data);
+    }
+
+    // Convierte el conjunto a un vector y devuélvelo
+    return std::vector<Vec2D>(selectedPoints.begin(), selectedPoints.end());
+}
+
+std::vector<Vec2D> KDTree::GetAllPoints()
+{
+    std::vector<Vec2D> allPoints;
+    allPoints.reserve(size); // Reserva espacio para evitar reallocaciones frecuentes
+
+    GetAllPointsRecursive(root, allPoints);
+
+    return allPoints;
+}
+
+void KDTree::GetAllPointsRecursive(Node *node, std::vector<Vec2D> &allPoints)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    GetAllPointsRecursive(node->left, allPoints);
+    allPoints.push_back(node->data);
+    GetAllPointsRecursive(node->right, allPoints);
+}
+
+std::vector<Vec2D> KDTree::ApproximateCentroids(std::vector<std::vector<Vec2D>> clusters)
+{
+    std::vector<Vec2D> newCentroids;
+    newCentroids.reserve(clusters.size());
+    for (int i = 0; i < clusters.size(); i++)
+    {
+        Vec2D centroid = Vec2D();
+        for (const auto &point : clusters[i])
+            centroid = centroid + point;
+        double size = clusters[i].size();
+        if (size != 0)
+            centroid = centroid / size;
+        newCentroids.push_back(centroid);
+    }
+    return newCentroids;
+}
+
+std::vector<std::vector<Vec2D>> KDTree::KMeans(int k)
+{
+    std::vector<Vec2D> centroids = Centroids(k);
+    std::vector<Vec2D> all_points = GetAllPoints();
+    return KMeans(centroids, 0, all_points);
+}
+
+std::vector<std::vector<Vec2D>> KDTree::KMeans(std::vector<Vec2D> centroids, int count, std::vector<Vec2D> points)
+{
+
+    KDTree centers(2);
+    for (const auto &centroid : centroids)
+    {
+        centers.insert(centroid);
+    }
+
+    std::vector<std::vector<Vec2D>> clusters(centroids.size());
+    for (int i = 0; i < size; i++)
+    {
+        std::vector<Vec2D> num = centers.KNN(points[i], 1);
+        for (int j = 0; j < centroids.size(); j++)
+        {
+            if (num[0] == centroids[j])
+            {
+                clusters[j].push_back(points[i]);
+                break;
+            }
+        }
+    }
+
+    std::vector<Vec2D> newCentroids = ApproximateCentroids(clusters);
+    if (count == 10 || newCentroids == centroids)
+        return clusters;
+    return KMeans(newCentroids, count + 1, points);
 }
